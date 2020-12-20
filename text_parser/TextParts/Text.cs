@@ -1,6 +1,7 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using text_parser.Service.Contracts;
 using text_parser.TextParts.Contracts;
 
 namespace text_parser
@@ -8,7 +9,7 @@ namespace text_parser
     public class Text : IText
     {
         private ICollection<ISentence> sentences;
-
+        private ITextWorker worker;
         public string Content
         {
             get
@@ -22,6 +23,8 @@ namespace text_parser
             }
         }
 
+        public ITextWorker Worker { set => worker = value; }
+
         public Text()
         {
             sentences = new List<ISentence>();
@@ -30,17 +33,38 @@ namespace text_parser
         {
             sentences = source;
         }
-
+       
         public void Add(ISentence sentence)
         {
-            sentences.Add(sentence);
+            if (sentences != null)
+            {
+                sentences.Add(sentence);
+            }
         }
      
         public void Remove(ISentence sentence)
         {
-            throw new System.NotImplementedException();
+            if (sentences != null)
+            {
+                sentences.Remove(sentence);
+            }
         }
 
-       
+        public void Sort()
+        {
+            if (worker != null)
+            {
+                sentences = worker.SortSentences(sentences);
+            }
+        }
+        public void PrintWords(int length)
+        {
+            if (worker != null)
+            {
+                var interrogatives = worker.SelectInterrogatives(sentences);
+                var words = worker.SelectWords(interrogatives, length);
+                worker.PrintWords(words);
+            }
+        }
     }
 }

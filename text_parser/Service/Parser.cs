@@ -4,10 +4,11 @@ using text_parser.TextParts;
 using text_parser.TextParts.Contracts;
 using System.Collections.Generic;
 using System.Text;
+using text_parser.Service.Contracts;
 
 namespace text_parser
 {
-    public class Parser
+    public class Parser : IParser
     {
         private SeparatorContainer separatorContainer;
         public Parser()
@@ -62,7 +63,6 @@ namespace text_parser
                 {
                     parts.Add(new Word(word));
                 }
-                parts.Add(new Punctuation(" "));
             }
             return parts;
         }

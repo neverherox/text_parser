@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using text_parser.Service;
 
 namespace text_parser
 {
@@ -13,7 +14,9 @@ namespace text_parser
            
             Parser parser = new Parser();
             IText text = parser.Parse(new StreamReader(textPath));
+            text.Worker = new TextWorker();
             Console.WriteLine(text.Content);
+            text.PrintWords(9);
             Console.ReadKey();
         }
     }

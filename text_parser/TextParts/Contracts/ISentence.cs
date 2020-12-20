@@ -1,4 +1,6 @@
-﻿namespace text_parser.TextParts.Contracts
+﻿using System.Collections.Generic;
+
+namespace text_parser.TextParts.Contracts
 {
     public interface ISentence
     {
@@ -6,5 +8,10 @@
         void Remove(ISentencePart part);
 
         string Content { get; }
+        int Count { get; }
+
+        ISentencePart LastPart { get; }
+
+        ICollection<ISentencePart> Words { get; }
     }
 }
