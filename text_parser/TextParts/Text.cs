@@ -73,7 +73,7 @@ namespace text_parser
                 var words = worker.SelectWords(sentences, length);
                 var wordsStartedWithConsonants = worker.SelectWordsStartedWithConsonants(sentences);
                 var intersection = words.Intersect(wordsStartedWithConsonants);
-                worker.RemoveWords(sentences, intersection);
+                worker.RemoveWords(sentences, intersection.ToList());
             }
         }
     }

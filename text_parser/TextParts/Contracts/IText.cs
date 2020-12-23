@@ -8,10 +8,9 @@ namespace text_parser
         void Add(ISentence sentence);
         void Remove(ISentence sentence);
         string Content { get; }
+        ITextWorker Worker { set; }
 
         void Sort();
-
-        ITextWorker Worker { set; }
         void PrintWords(int length);
         void RemoveWords(int length);
     }

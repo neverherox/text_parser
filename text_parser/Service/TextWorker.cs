@@ -31,7 +31,7 @@ namespace text_parser.Service
         {
             return sentences.Where(x => x.LastPart.Content.Equals("?"));
         }
-        public void RemoveWords(IEnumerable<ISentence> sentences, IEnumerable<IWord> words)
+        public void RemoveWords(IEnumerable<ISentence> sentences, ICollection<IWord> words)
         {
             foreach (var sentence in sentences)
             {
@@ -43,7 +43,11 @@ namespace text_parser.Service
         }
         public void ReplaceWords(ISentence sentence, int length, string newWord)
         {
-            
+            var words = SelectWords(sentence, length);
+            foreach(var word in words)
+            {
+                sentence.Remove(word);
+            }
         }
         public void PrintWords(IEnumerable<ISentencePart> words)
         {

@@ -15,6 +15,8 @@ namespace text_parser
             Parser parser = new Parser();
             IText text = parser.Parse(new StreamReader(textPath));
             text.Worker = new TextWorker();
+            text.Sort();
+            text.RemoveWords(2);
             Console.WriteLine(text.Content);
 
             Console.ReadKey();

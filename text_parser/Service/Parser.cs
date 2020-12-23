@@ -11,6 +11,7 @@ namespace text_parser
     public class Parser : IParser
     {
         private SeparatorContainer separatorContainer;
+       
         public Parser()
         {
             separatorContainer = new SeparatorContainer();
@@ -48,7 +49,7 @@ namespace text_parser
         private List<ISentencePart> ParseSentence(string content)
         {
             List<ISentencePart> parts = new List<ISentencePart>();
-            string[] words = content.Split(' ');
+            string[] words = content.Split(' ', '\t');
             foreach (var word in words)
             {
                 var sep = separatorContainer.AllSeparators.Where(x => word.IndexOf(x) >= 0).FirstOrDefault();
