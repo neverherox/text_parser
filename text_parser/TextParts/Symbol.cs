@@ -2,7 +2,7 @@
 
 namespace text_parser
 {
-    public class Symbol : ISentencePart
+    public class Symbol
     {
         public string Content { get; }
 

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using text_parser.Service.Contracts;
 using text_parser.TextParts.Contracts;
 
@@ -15,17 +14,36 @@ namespace text_parser.Service
             return sentences.OrderBy(x => x.Count).ToList();
         }
 
-        public ICollection<ISentencePart> SelectWords(IEnumerable<ISentence> sentences, int length)
+        public IEnumerable<IWord> SelectWords(IEnumerable<ISentence> sentences, int length)
         {
-            return sentences.SelectMany(x => x.Words.Where(y => y.Content.Length == length)).ToList();
+            return sentences.SelectMany(x => x.Words.Where(y => y.Count == length));
         }
-        public ICollection<ISentence> SelectInterrogatives(IEnumerable<ISentence> sentences)
+        public IEnumerable<IWord> SelectWords(ISentence sentence, int length)
         {
-            return sentences.Where(x => x.LastPart.Content.Equals("?")).ToList();
+            return sentence.Words.Where(x => x.Count == length);
         }
-        public ICollection<ISentencePart> RemoveWords(IEnumerable<ISentence> sentences, int length)
+        public IEnumerable<IWord> SelectWordsStartedWithConsonants(IEnumerable<ISentence> sentences)
         {
-            return null;
+            string pattern = @"[aeiou]";
+            return sentences.SelectMany(x => x.Words.Where(y => Regex.Matches(y.FirstSymbol.Content, pattern).Count == 0));
+        }
+        public IEnumerable<ISentence> SelectInterrogatives(IEnumerable<ISentence> sentences)
+        {
+            return sentences.Where(x => x.LastPart.Content.Equals("?"));
+        }
+        public void RemoveWords(IEnumerable<ISentence> sentences, IEnumerable<IWord> words)
+        {
+            foreach (var sentence in sentences)
+            {
+                foreach (var word in words)
+                {
+                    sentence.Remove(word);
+                }
+            }
+        }
+        public void ReplaceWords(ISentence sentence, int length, string newWord)
+        {
+            
         }
         public void PrintWords(IEnumerable<ISentencePart> words)
         {

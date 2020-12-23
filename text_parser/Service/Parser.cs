@@ -17,7 +17,6 @@ namespace text_parser
         }
         public IText Parse(TextReader reader)
         {
-            string[] orderedSeps = separatorContainer.SentenceSeparators.OrderByDescending(x => x.Length).ToArray();
             StringBuilder buffer = new StringBuilder();
             IText resultText = new Text();
 
@@ -27,7 +26,7 @@ namespace text_parser
                 buffer.Append(line);
                 while (line != null)
                 {
-                    var seps = line.SelectMany(x => orderedSeps.Where(y => y.IndexOf(x) >= 0));
+                    var seps = line.SelectMany(x => separatorContainer.SentenceSeparators.Where(y => y.IndexOf(x) >= 0));
                     if (seps != null)
                     {
                         int currentPosition = 0;
@@ -37,8 +36,7 @@ namespace text_parser
                             int length = endPosition - currentPosition;
                             resultText.Add(new Sentence(ParseSentence(buffer.ToString().Substring(currentPosition, length))));
                             buffer.Remove(currentPosition, length);
-                            currentPosition += endPosition + 1;
-                            
+                            currentPosition += endPosition + 1;     
                         }
                     }
                     line = reader.ReadLine();
@@ -54,14 +52,17 @@ namespace text_parser
             foreach (var word in words)
             {
                 var sep = separatorContainer.AllSeparators.Where(x => word.IndexOf(x) >= 0).FirstOrDefault();
-                if (sep != null)
+                if (word.Length > 0)
                 {
-                    parts.Add(new Word(word.Remove(word.IndexOf(sep))));
-                    parts.Add(new Punctuation(sep.ToString()));
-                }
-                else
-                {
-                    parts.Add(new Word(word));
+                    if (sep != null)
+                    {
+                        parts.Add(new Word(word.Remove(word.IndexOf(sep))));
+                        parts.Add(new Punctuation(sep.ToString()));
+                    }
+                    else
+                    {
+                        parts.Add(new Word(word));
+                    }
                 }
             }
             return parts;

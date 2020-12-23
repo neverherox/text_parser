@@ -37,11 +37,11 @@ namespace text_parser
             }
         }
 
-        public ICollection<ISentencePart> Words
+        public IEnumerable<IWord> Words
         {
             get
             {
-                return parts.Where(x => x is Word).ToList();
+                return parts.Where(x => x is Word).Cast<IWord>();
             }
         }
 

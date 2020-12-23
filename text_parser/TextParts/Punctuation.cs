@@ -7,7 +7,6 @@ namespace text_parser
         private Symbol symbol;
         public string Content => symbol.Content;
 
-
         public Punctuation(Symbol source)
         {
             symbol = source;

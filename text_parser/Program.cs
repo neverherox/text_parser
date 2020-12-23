@@ -16,7 +16,7 @@ namespace text_parser
             IText text = parser.Parse(new StreamReader(textPath));
             text.Worker = new TextWorker();
             Console.WriteLine(text.Content);
-            text.PrintWords(9);
+
             Console.ReadKey();
         }
     }

@@ -4,7 +4,7 @@ using System.Text;
 using text_parser.TextParts.Contracts;
 namespace text_parser
 {
-    public class Word : ISentencePart
+    public class Word : IWord
     {
         private IEnumerable<Symbol> symbols;
         public string Content
@@ -19,13 +19,30 @@ namespace text_parser
                 return resultWord.ToString();
             }
         }
+
+        public Symbol FirstSymbol
+        {
+            get
+            {
+                return symbols.First();
+            }
+        }
+        public int Count
+        {
+            get
+            {
+                return symbols.Count();
+            }
+        }
+
         public Word(string content)
         {
-            symbols = content.Select(x => new Symbol(x.ToString())).ToList<Symbol>();
+            symbols = content.Select(x => new Symbol(x.ToString())).ToList();
         }
         public Word(IEnumerable<Symbol> source)
         {
             symbols = source;
         }
+      
     }
 }

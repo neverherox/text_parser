@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using text_parser.Service.Contracts;
@@ -33,7 +33,7 @@ namespace text_parser
         {
             sentences = source;
         }
-       
+
         public void Add(ISentence sentence)
         {
             if (sentences != null)
@@ -41,7 +41,7 @@ namespace text_parser
                 sentences.Add(sentence);
             }
         }
-     
+
         public void Remove(ISentence sentence)
         {
             if (sentences != null)
@@ -64,6 +64,16 @@ namespace text_parser
                 var interrogatives = worker.SelectInterrogatives(sentences);
                 var words = worker.SelectWords(interrogatives, length);
                 worker.PrintWords(words);
+            }
+        }
+        public void RemoveWords(int length)
+        {
+            if (worker != null)
+            {
+                var words = worker.SelectWords(sentences, length);
+                var wordsStartedWithConsonants = worker.SelectWordsStartedWithConsonants(sentences);
+                var intersection = words.Intersect(wordsStartedWithConsonants);
+                worker.RemoveWords(sentences, intersection);
             }
         }
     }

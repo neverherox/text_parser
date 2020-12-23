@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using text_parser.Service.Contracts;
+﻿using text_parser.Service.Contracts;
 using text_parser.TextParts.Contracts;
 
 namespace text_parser
@@ -14,5 +13,6 @@ namespace text_parser
 
         ITextWorker Worker { set; }
         void PrintWords(int length);
+        void RemoveWords(int length);
     }
 }

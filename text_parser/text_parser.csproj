@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Service\Contracts\IParser.cs" />
     <Compile Include="Service\Contracts\ITextWorker.cs" />
+    <Compile Include="Service\Contracts\ISentenceWorker.cs" />
     <Compile Include="Service\TextWorker.cs" />
     <Compile Include="TextParts\Contracts\IText.cs" />
     <Compile Include="Service\Parser.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextParts\Contracts\ISentencePart.cs" />
     <Compile Include="TextParts\Contracts\ISentence.cs" />
+    <Compile Include="TextParts\Contracts\IWord.cs" />
     <Compile Include="TextParts\Punctuation.cs" />
     <Compile Include="TextParts\Sentence.cs" />
     <Compile Include="TextParts\SeparatorContainer.cs" />
