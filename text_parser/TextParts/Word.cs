@@ -7,19 +7,7 @@ namespace text_parser
     public class Word : IWord
     {
         private IEnumerable<Symbol> symbols;
-        public string Content
-        {
-            get
-            {
-                StringBuilder resultWord = new StringBuilder();
-                foreach (var symbol in symbols)
-                {
-                    resultWord.Append(symbol.Content);
-                }
-                return resultWord.ToString();
-            }
-        }
-
+       
         public Symbol FirstSymbol
         {
             get
@@ -43,6 +31,15 @@ namespace text_parser
         {
             symbols = source;
         }
-      
+
+        public override string ToString()
+        {
+            StringBuilder resultWord = new StringBuilder();
+            foreach (var symbol in symbols)
+            {
+                resultWord.Append(symbol.Content);
+            }
+            return resultWord.ToString();
+        }
     }
 }

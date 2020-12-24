@@ -7,31 +7,31 @@ using text_parser.TextParts.Contracts;
 
 namespace text_parser.Service
 {
-    public class TextWorker : ITextWorker
+    public static class SentenceWorker
     {
-        public ICollection<ISentence> SortSentences(IEnumerable<ISentence> sentences)
+        public static ICollection<ISentence> SortSentences(IEnumerable<ISentence> sentences)
         {
             return sentences.OrderBy(x => x.Count).ToList();
         }
 
-        public IEnumerable<IWord> SelectWords(IEnumerable<ISentence> sentences, int length)
+        public static IEnumerable<IWord> SelectWords(IEnumerable<ISentence> sentences, int length)
         {
             return sentences.SelectMany(x => x.Words.Where(y => y.Count == length));
         }
-        public IEnumerable<IWord> SelectWords(ISentence sentence, int length)
+        public static IEnumerable<IWord> SelectWords(ISentence sentence, int length)
         {
             return sentence.Words.Where(x => x.Count == length);
         }
-        public IEnumerable<IWord> SelectWordsStartedWithConsonants(IEnumerable<ISentence> sentences)
+        public static IEnumerable<IWord> SelectWordsStartedWithConsonants(IEnumerable<ISentence> sentences)
         {
             string pattern = @"[aeiou]";
             return sentences.SelectMany(x => x.Words.Where(y => Regex.Matches(y.FirstSymbol.Content, pattern).Count == 0));
         }
-        public IEnumerable<ISentence> SelectInterrogatives(IEnumerable<ISentence> sentences)
+        public static IEnumerable<ISentence> SelectInterrogatives(IEnumerable<ISentence> sentences)
         {
-            return sentences.Where(x => x.LastPart.Content.Equals("?"));
+            return sentences.Where(x => x.LastPart.ToString().Equals("?"));
         }
-        public void RemoveWords(IEnumerable<ISentence> sentences, ICollection<IWord> words)
+        public static void RemoveWords(IEnumerable<ISentence> sentences, ICollection<IWord> words)
         {
             foreach (var sentence in sentences)
             {
@@ -41,19 +41,19 @@ namespace text_parser.Service
                 }
             }
         }
-        public void ReplaceWords(ISentence sentence, int length, string newWord)
+        public static void ReplaceWords(ISentence sentence, int length, string newWord)
         {
             var words = SelectWords(sentence, length);
-            foreach(var word in words)
+            foreach (var word in words.ToList())
             {
-                sentence.Remove(word);
+                sentence.Replace(word, new Word(newWord));
             }
         }
-        public void PrintWords(IEnumerable<ISentencePart> words)
+        public static void PrintWords(IEnumerable<ISentencePart> words)
         {
             foreach (var word in words)
             {
-                Console.WriteLine(word.Content);
+                Console.WriteLine(word.ToString());
             }
         }
     }

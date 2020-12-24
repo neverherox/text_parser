@@ -8,24 +8,20 @@ namespace text_parser
     public class Sentence : ISentence
     {
         private ICollection<ISentencePart> parts;
-        public string Content
-        {
-            get
-            {
-                StringBuilder resultSentence = new StringBuilder();
-                foreach (var part in parts)
-                {
-                    resultSentence.Append(part.Content + " ");
-                }
-                return resultSentence.ToString();
-            }
-        }
-
+        
         public int Count
         {
             get
             {
-                return parts.Count;
+                int counter = 0;
+                foreach(var part in parts)
+                {
+                    if (part is IWord)
+                    {
+                        counter++;
+                    }
+                }
+                return counter;
             }
         }
 
@@ -69,6 +65,32 @@ namespace text_parser
             {
                 parts.Remove(part);
             }
+        }
+
+        public void Replace(IWord oldWord, IWord newWord)
+        {
+            int index = parts.ToList().IndexOf(oldWord);
+            Remove(oldWord);
+            var result = parts.ToList();
+            result.Insert(index, newWord);
+            parts = result;
+        }
+        public override string ToString()
+        {
+            StringBuilder resultSentence = new StringBuilder();
+            foreach (var part in parts)
+            {
+                if (part is IWord)
+                {
+                    resultSentence.Append(" " + part.ToString());
+                }
+                else
+                {
+                    resultSentence.Append(part.ToString());
+                }
+            }
+            return resultSentence.ToString();
+
         }
     }
 }

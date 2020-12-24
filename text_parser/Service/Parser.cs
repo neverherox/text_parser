@@ -5,46 +5,45 @@ using text_parser.TextParts.Contracts;
 using System.Collections.Generic;
 using System.Text;
 using text_parser.Service.Contracts;
+using System;
 
 namespace text_parser
 {
     public class Parser : IParser
     {
         private SeparatorContainer separatorContainer;
-       
+
         public Parser()
         {
             separatorContainer = new SeparatorContainer();
         }
         public IText Parse(TextReader reader)
         {
-            StringBuilder buffer = new StringBuilder();
             IText resultText = new Text();
-
+            StringBuilder buffer = new StringBuilder();
             using (reader)
             {
                 string line = reader.ReadLine();
-                buffer.Append(line);
                 while (line != null)
                 {
-                    var seps = line.SelectMany(x => separatorContainer.SentenceSeparators.Where(y => y.IndexOf(x) >= 0));
-                    if (seps != null)
+                    buffer.Append(line);
+                    var parts = buffer.ToString().Split(separatorContainer.SentenceSeparators, StringSplitOptions.RemoveEmptyEntries);
+                    var separators = buffer.ToString().Split(parts, StringSplitOptions.RemoveEmptyEntries);
+                    int i;
+                    for (i = 0; i < separators.Length; i++)
                     {
-                        int currentPosition = 0;
-                        foreach (var sep in seps)
-                        {
-                            int endPosition = buffer.ToString().IndexOf(sep) + sep.Length;
-                            int length = endPosition - currentPosition;
-                            resultText.Add(new Sentence(ParseSentence(buffer.ToString().Substring(currentPosition, length))));
-                            buffer.Remove(currentPosition, length);
-                            currentPosition += endPosition + 1;     
-                        }
+                        int index = buffer.ToString().IndexOf(parts[i]);
+                        resultText.Add(new Sentence(ParseSentence(parts[i] + separators[i])));
+                        buffer.Remove(index, parts[i].Length + separators[i].Length);
+                    }
+                    if (i != separators.Length)
+                    {
+                        buffer.Append(parts[i]);
                     }
                     line = reader.ReadLine();
-                    buffer.Append(line);
                 }
-                return resultText;
             }
+            return resultText;
         }
         private List<ISentencePart> ParseSentence(string content)
         {

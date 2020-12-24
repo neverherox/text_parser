@@ -45,9 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Service\Contracts\IParser.cs" />
-    <Compile Include="Service\Contracts\ITextWorker.cs" />
-    <Compile Include="Service\Contracts\ISentenceWorker.cs" />
-    <Compile Include="Service\TextWorker.cs" />
+    <Compile Include="Service\Contracts\ITextService.cs" />
+    <Compile Include="Service\Contracts\ITextWriter.cs" />
+    <Compile Include="Service\TextService.cs" />
+    <Compile Include="Service\SentenceWorker.cs" />
+    <Compile Include="Service\TextWriter.cs" />
     <Compile Include="TextParts\Contracts\IText.cs" />
     <Compile Include="Service\Parser.cs" />
     <Compile Include="Program.cs" />

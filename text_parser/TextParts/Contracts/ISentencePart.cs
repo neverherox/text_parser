@@ -2,6 +2,5 @@
 {
     public interface ISentencePart
     {
-        string Content { get; }
     }
 }

@@ -5,7 +5,7 @@ namespace text_parser.TextParts
 {
     public class SeparatorContainer
     {
-        private string[] sentenceSeparators = {".", "!", "?"};
+        private string[] sentenceSeparators = { "...", "!?", "?!", ".", "!", "?"};
         private string[] wordSeparators = {" - ", ",", " ", ":", ";"};
 
         public string[] SentenceSeparators { get => sentenceSeparators; }

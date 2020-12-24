@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using System.Text;
-using text_parser.Service.Contracts;
 using text_parser.TextParts.Contracts;
 
 namespace text_parser
@@ -9,21 +8,18 @@ namespace text_parser
     public class Text : IText
     {
         private ICollection<ISentence> sentences;
-        private ITextWorker worker;
-        public string Content
+       
+        public ICollection<ISentence> Sentences
         {
             get
             {
-                StringBuilder resultText = new StringBuilder();
-                foreach (var sentence in sentences)
-                {
-                    resultText.Append(sentence.Content + '\n');
-                }
-                return resultText.ToString();
+                return sentences;
+            }
+            set
+            {
+                sentences = value;
             }
         }
-
-        public ITextWorker Worker { set => worker = value; }
 
         public Text()
         {
@@ -50,31 +46,18 @@ namespace text_parser
             }
         }
 
-        public void Sort()
+        public ISentence GetSentence(int index)
         {
-            if (worker != null)
-            {
-                sentences = worker.SortSentences(sentences);
-            }
+            return sentences.ToList()[index];
         }
-        public void PrintWords(int length)
+        public override string ToString()
         {
-            if (worker != null)
+            StringBuilder resultText = new StringBuilder();
+            foreach (var sentence in sentences)
             {
-                var interrogatives = worker.SelectInterrogatives(sentences);
-                var words = worker.SelectWords(interrogatives, length);
-                worker.PrintWords(words);
+                resultText.Append(sentence.ToString() + '\n');
             }
-        }
-        public void RemoveWords(int length)
-        {
-            if (worker != null)
-            {
-                var words = worker.SelectWords(sentences, length);
-                var wordsStartedWithConsonants = worker.SelectWordsStartedWithConsonants(sentences);
-                var intersection = words.Intersect(wordsStartedWithConsonants);
-                worker.RemoveWords(sentences, intersection.ToList());
-            }
+            return resultText.ToString();
         }
     }
 }

@@ -4,7 +4,6 @@ namespace text_parser.TextParts.Contracts
 {
     public interface ISentence
     {
-        string Content { get; }
         int Count { get; }
 
         ISentencePart LastPart { get; }
@@ -13,6 +12,7 @@ namespace text_parser.TextParts.Contracts
 
         void Add(ISentencePart part);
         void Remove(ISentencePart part);
+        void Replace(IWord oldWord, IWord newWord);
 
     }
 }

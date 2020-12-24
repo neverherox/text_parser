@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.IO;
 using text_parser.Service;
+using text_parser.Service.Contracts;
 
 namespace text_parser
 {
@@ -10,15 +11,12 @@ namespace text_parser
         static void Main(string[] args)
         {
             var appSettings = ConfigurationManager.AppSettings;
-            string textPath = appSettings["text"];
-           
             Parser parser = new Parser();
-            IText text = parser.Parse(new StreamReader(textPath));
-            text.Worker = new TextWorker();
-            text.Sort();
-            text.RemoveWords(2);
-            Console.WriteLine(text.Content);
-
+            IText text = parser.Parse(new StreamReader(appSettings["text"]));
+            ITextService textService = new TextService();
+            ITextWriter textWriter = new Service.TextWriter();
+            textWriter.WriteText(text, appSettings["restored"]);
+            Console.WriteLine(text.ToString());
             Console.ReadKey();
         }
     }
