@@ -36,10 +36,6 @@ namespace text_parser
                         resultText.Add(new Sentence(ParseSentence(parts[i] + separators[i])));
                         buffer.Remove(index, parts[i].Length + separators[i].Length);
                     }
-                    if (i != separators.Length)
-                    {
-                        buffer.Append(parts[i]);
-                    }
                     line = reader.ReadLine();
                 }
             }
