@@ -48,21 +48,18 @@ namespace text_parser
         private List<ISentencePart> ParseSentence(string content)
         {
             List<ISentencePart> parts = new List<ISentencePart>();
-            string[] words = content.Split(' ', '\t');
+            string[] words = content.Split(new string[] {" ", "\t"}, StringSplitOptions.RemoveEmptyEntries);
             foreach (var word in words)
             {
                 var sep = separatorContainer.AllSeparators.Where(x => word.IndexOf(x) >= 0).FirstOrDefault();
-                if (word.Length > 0)
+                if (sep != null)
                 {
-                    if (sep != null)
-                    {
-                        parts.Add(new Word(word.Remove(word.IndexOf(sep))));
-                        parts.Add(new Punctuation(sep.ToString()));
-                    }
-                    else
-                    {
-                        parts.Add(new Word(word));
-                    }
+                    parts.Add(new Word(word.Remove(word.IndexOf(sep))));
+                    parts.Add(new Punctuation(sep.ToString()));
+                }
+                else
+                {
+                    parts.Add(new Word(word));
                 }
             }
             return parts;
