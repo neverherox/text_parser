@@ -12,10 +12,10 @@ namespace text_parser.Service
         }
         public void PrintWordsInInterrogatives(IText text, int length)
         {
-
             var interrogatives = SentenceWorker.SelectInterrogatives(text.Sentences);
             var words = SentenceWorker.SelectWords(interrogatives, length);
-            SentenceWorker.PrintWords(words);
+            var distincts = words.GroupBy(x => x.ToString()).Select(y => y.First());
+            SentenceWorker.PrintWords(distincts);
         }
         public void RemoveWordsStartedWithConsonants(IText text, int length)
         {

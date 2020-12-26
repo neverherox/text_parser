@@ -14,6 +14,7 @@ namespace text_parser
             Parser parser = new Parser();
             IText text = parser.Parse(new StreamReader(appSettings["text"]));
             ITextService textService = new TextService();
+            textService.PrintWordsInInterrogatives(text, 3);
             ITextWriter textWriter = new Service.TextWriter();
             textWriter.WriteText(text, appSettings["restored"]);
             Console.WriteLine(text.ToString());

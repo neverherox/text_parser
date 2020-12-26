@@ -25,7 +25,7 @@ namespace text_parser.Service
         public static IEnumerable<IWord> SelectWordsStartedWithConsonants(IEnumerable<ISentence> sentences)
         {
             string pattern = @"[aeiou]";
-            return sentences.SelectMany(x => x.Words.Where(y => Regex.Matches(y.FirstSymbol.Content, pattern).Count == 0));
+            return sentences.SelectMany(x => x.Words.Where(y => Regex.Matches(y.FirstSymbol.Content.ToLower(), pattern).Count == 0));
         }
         public static IEnumerable<ISentence> SelectInterrogatives(IEnumerable<ISentence> sentences)
         {
