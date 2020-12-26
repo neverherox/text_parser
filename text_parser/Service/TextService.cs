@@ -14,7 +14,7 @@ namespace text_parser.Service
         {
             var interrogatives = SentenceWorker.SelectInterrogatives(text.Sentences);
             var words = SentenceWorker.SelectWords(interrogatives, length);
-            var distincts = words.GroupBy(x => x.ToString()).Select(y => y.First());
+            var distincts = words.GroupBy(x => x.ToString().ToLower()).Select(y => y.First());
             SentenceWorker.PrintWords(distincts);
         }
         public void RemoveWordsStartedWithConsonants(IText text, int length)
